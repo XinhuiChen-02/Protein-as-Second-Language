@@ -3,13 +3,10 @@
 Deciphering the function of unseen protein sequences is a fundamental challenge with broad scientific impact, yet most existing methods depend on task-specific adapters or large-scale supervised fine-tuning. We introduce the “**Protein-as-Second-Language**” framework, which reformulates amino-acid sequences as sentences in a novel symbolic language that large language models can interpret through contextual exemplars. Our approach adaptively constructs sequence–question–answer triples that reveal functional cues without any parameter updates. To support this process we curate a bilingual corpus of 79,860 protein–QA instances spanning attribute prediction, descriptive understanding, and extended reasoning.
 
 ## Installation
-Create environment
+Install dependencies
 ```
 conda create -n env python=3.10 -y
 conda activate env
-```
-Install dependencies
-```
 pip install -r requirements.txt
 ```
 Install MMseqs2
@@ -23,6 +20,35 @@ Then install:
 ```
 conda install mmseqs2
 ```
+## Query-Adaptive Context Construction
+
+Both reference and query datasets are JSON structured as:
+```
+[
+  {
+    "id": "P30291",
+    "conversations": [
+      { "from": "system", "value": "..." },
+      { "from": "user", "value": "Amino acid:<seq> M S F ... T I Y </seq> ..." },
+      { "from": "assistant", "value": "..." }
+    ]
+  }
+]
+```
+User turn must contain sequence wrapped as "<seq> M S L ... V </seq>". To build the MMseqs reference DB and merged QA corpus:
+```
+python build_ref_db.py \
+  --input data/Attribute-based_QA.json/Knowledge-based_QA.json/... \
+  --merged-json data/ref_merged.json \
+  --out-fasta data/ref.fasta \
+  --mmseqs-db data/refDB \
+  --skip-mmseqs
+```
+Then build MMseqs DB:
+```
+mmseqs createdb data/ref.fasta data/refDB
+```
+After this step you should have:
 ```
 python build_ref_db.py \
   --input autodl-tmp/Attribute-based_QA.json \
