@@ -4,7 +4,7 @@ Deciphering the function of unseen protein sequences is a fundamental challenge 
 
 ## Installation
 ```
-conda create -n protein-retriever python=3.10 -y
+conda create -n env python=3.10 -y
 conda activate env
 pip install -r requirements.txt
 ```
