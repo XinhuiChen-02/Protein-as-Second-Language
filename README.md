@@ -1,2 +1,10 @@
 # Protein-as-Second-Language
+## Introduction
 Deciphering the function of unseen protein sequences is a fundamental challenge with broad scientific impact, yet most existing methods depend on task-specific adapters or large-scale supervised fine-tuning. We introduce the “**Protein-as-Second-Language**” framework, which reformulates amino-acid sequences as sentences in a novel symbolic language that large language models can interpret through contextual exemplars. Our approach adaptively constructs sequence–question–answer triples that reveal functional cues without any parameter updates. To support this process we curate a bilingual corpus of 79,860 protein–QA instances spanning attribute prediction, descriptive understanding, and extended reasoning.
+
+## Installation
+```
+conda create -n protein-retriever python=3.10 -y
+conda activate env
+pip install -r requirements.txt
+```
