@@ -29,13 +29,13 @@ Both reference and query datasets are JSON structured as:
     "id": "P30291",
     "conversations": [
       { "from": "system", "value": "..." },
-      { "from": "user", "value": "Amino acid:<seq> M S F ... T I Y </seq> ..." },
+      { "from": "user", "value": "Amino acid: <seq> M S F ... T I Y </seq> ..." },
       { "from": "assistant", "value": "..." }
     ]
   }
 ]
 ```
-User turn must contain sequence wrapped as "<seq> M S L ... V </seq>". To build the MMseqs reference DB and merged QA corpus:
+User turn must contain sequence wrapped as "\<seq> M S L ... V \</seq>". To build the MMseqs reference DB and merged QA corpus:
 ```
 python build_ref_db.py \
   --input data/Attribute-based_QA.json/Knowledge-based_QA.json/... \
@@ -48,21 +48,17 @@ Then build MMseqs DB:
 ```
 mmseqs createdb data/ref.fasta data/refDB
 ```
-After this step you should have:
+With reference DB prepared, run the retrieval module.
 ```
-python build_ref_db.py \
-  --input autodl-tmp/Attribute-based_QA.json \
-  --merged-json data/ref_merged.json \
-  --out-fasta data/ref.fasta \
-  --mmseqs-db data/refDB \
-  --skip-mmseqs
 python build_contextual_exemplars.py \
-  --queries /root/autodl-tmp/protein2text_tes_500.json \
-  --reference /root/data/ref_merged.json \
-  --mmseqs-db /root/data/refDB \
-  --tfidf-cache /root/data/ref_tfidf.joblib \
-  --output /root/contextual_exemplars_textonly.csv \
+  --queries data/protein_test.json \
+  --reference data/ref_merged.json \
+  --mmseqs-db data/refDB \
+  --tfidf-cache data/ref_tfidf.joblib \
+  --output data/contextual_exemplars_nonself.csv \
   --num-shots 4 \
-  --w-seq 0.0 \
+  --w-seq 0.5 \
   --sim-threshold 0.0
+```
+This avoids retrieving exemplars with nearly identical sequences. To disable this behavior and allow self matches, use `--allow-self`.
 ```
