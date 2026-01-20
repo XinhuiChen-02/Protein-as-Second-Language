@@ -1,0 +1,6 @@
+tqdm>=4.66.0
+numpy
+scikit-learn
+joblib
+torch
+transformers
