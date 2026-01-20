@@ -7,4 +7,16 @@ Deciphering the function of unseen protein sequences is a fundamental challenge 
 conda create -n env python=3.10 -y
 conda activate env
 pip install -r requirements.txt
+conda install -c conda-forge mmseqs2
+（环境外）
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda install mmseqs2
+python build_ref_db.py \
+  --input autodl-tmp/Attribute-based_QA.json \
+  --merged-json data/ref_merged.json \
+  --out-fasta data/ref.fasta \
+  --mmseqs-db data/refDB \
+  --skip-mmseqs
 ```
