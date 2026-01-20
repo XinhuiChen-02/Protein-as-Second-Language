@@ -61,4 +61,3 @@ python build_contextual_exemplars.py \
   --sim-threshold 0.0
 ```
 This avoids retrieving exemplars with nearly identical sequences. To disable this behavior and allow self matches, use `--allow-self`.
-```
